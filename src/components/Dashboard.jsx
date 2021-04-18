@@ -60,7 +60,7 @@ export default function Dashboard(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props?.info?.map((row) => (
+          {props.info && props?.info?.map((row) => (
             <StyledTableRow key={row.name}>
               <StyledTableCell component="th" scope="row">
                 {row.name.first}

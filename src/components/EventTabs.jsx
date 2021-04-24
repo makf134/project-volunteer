@@ -12,6 +12,9 @@ import {useParams} from 'react-router-dom';
 import Timesheet from './Timesheet';
 import Volunteer from './Volunteer'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 const cardData=[{
   name:"John",
   eventname:"YolandaContentCreators",
@@ -93,19 +96,30 @@ const useStyles = makeStyles((theme) => ({
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
     maxwidth:'250px',
-    // marginLeft:'500px'
+    width:'300px',
+    marginLeft:'100px'
   },
   tabpanel:{
         // marginLeft:'500px',
         width:'1200px',
-        marginTop:'0'
+        marginLeft:'150px'
+  },
+  name:{
+          fontFamily: 'Orelega One',
+          fontWeight:'600',
+          fontSize:'50px',
+          marginTop:'100px'
+          },
+  tab:{
+    fontSize:'20px',
+    marginBottom:'15px',
   }
 }));
 
 export default function EventTabs() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const {data,loading} = useFetch('https://api.randomuser.me/?results=3')
+  const {data,loading} = useFetch('https://api.randomuser.me/')
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -113,7 +127,7 @@ export default function EventTabs() {
   return (
     <div>
     <Navigation />
-    <Typography variant='h4' style={{marginTop:'30px', marginLeft:'30px'}}> {eventname} </Typography>
+    <Typography variant='h4' style={{marginTop:'50px', marginLeft:'150px'}} className={classes.name}> {eventname} </Typography>
     <Grid>
     <div className={classes.root}>
     <Grid item={4}>
@@ -125,20 +139,21 @@ export default function EventTabs() {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab label="Dashboard" {...a11yProps(0)} />
-        <Tab label="Time Sheet" {...a11yProps(1)} />
-        <Tab label="Volunteer" {...a11yProps(2)} />
+        <Tab label="Dashboard" {...a11yProps(0)} className={classes.tab} />
+        <Tab label="Time Sheet" {...a11yProps(1)}  className={classes.tab}/>
+        <Tab label="Volunteer" {...a11yProps(2)} className={classes.tab} />
       </Tabs>
       </Grid>
       <Grid item={8}>
       <TabPanel className={classes.tabpanel} value={value} index={0} >
-          <Dashboard info={data} />
+
+          <Dashboard info={cardData} />
       </TabPanel>
       <TabPanel className={classes.tabpanel} value={value} index={1}>
-          <Timesheet info={data} />
+          <Timesheet info={cardData} />
       </TabPanel>
       <TabPanel className={classes.tabpanel} value={value} index={2}>
-        <Volunteer info={data} />
+        <Volunteer info={cardData} />
       </TabPanel>
       </Grid>
     </div>

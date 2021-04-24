@@ -6,9 +6,19 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {Link} from "react-router-dom";
 import {makeStyles} from "@material-ui/core/styles";
-
+import Avatar from '@material-ui/core/Avatar';
+import Menuu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
 
 function Navigation(){
+    const [not, setNot] = useState(null);
+    const handleClickNot = (event) => {
+      setNot(event.currentTarget);
+    };
+    const handleCloseNot = () => {
+      setNot(null);
+    };
     const useStyles=makeStyles((theme) =>({
       link:{textDecoration:"none", color:theme.palette.text.primary}
     }))
@@ -20,9 +30,9 @@ function Navigation(){
 
     return (
     <div>
-    <AppBar color='transparent' position='static'>
-    <Toolbar>
-      <IconButton onClick={handleDrawer} color='inherit' edge='start' aria-label='menu'>
+    <AppBar color='transparent' position='static' style={{height:'80px'}}>
+    <Toolbar style={{marginTop:'10px'}}>
+      <IconButton style={{marginLeft:'175px'}}  onClick={handleDrawer} color='inherit' edge='start' aria-label='menu'>
         <Menu />
       </IconButton>
       <Typography style={{flexGrow:1}}>iVolunteer</Typography>
@@ -36,10 +46,20 @@ function Navigation(){
         <AddBoxIcon />
       </IconButton>
       </Link>
-      <IconButton color='inherit' align='right' edge='start' aria-label='addbox'>
-        <AccountCircleIcon/>
-      </IconButton>
-      <Typography>Kalachuchi</Typography> 
+      <Avatar style={{marginLeft:'10px'}}>H</Avatar>
+      <Button color='inherit' align='right' edge='start' aria-label='addbox' onClick={handleClickNot} style={{marginRight:'250px'}} >
+      Kalachuchi
+      </Button>
+      <Menuu
+          id="account"
+          anchorEl={not}
+          keepMounted
+          open={Boolean(not)}
+          onClose={handleCloseNot}
+          >
+            
+                  <MenuItem onClick={handleCloseNot}>Logout</MenuItem>
+          </Menuu>
     </Toolbar>
   </AppBar>
 
@@ -61,12 +81,6 @@ function Navigation(){
         <div style={{height:"30px",width:"250px"}}></div>
           <ListItem button>
             <ListItemText primary={"FINISHED EVENTS"} />
-          </ListItem>
-        </Link>
-        <Link to="/host/settings" className={classes.link}>
-        <div style={{height:"30px",width:"250px"}}></div>
-          <ListItem button>
-            <ListItemText primary={"SETTINGS"} />
           </ListItem>
         </Link>
       </List>

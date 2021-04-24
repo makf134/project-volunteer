@@ -11,13 +11,23 @@ import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person'; 
 import CallIcon from '@material-ui/icons/Call';
 import EmailIcon from '@material-ui/icons/Email';
-import Button from '@material-ui/core/Button';
 import {useParams} from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
+import axios from "axios";
+const validationSchema = yup.object({
+    timeoutcode: yup
+    .string('Enter your code for attendace')
+    .required('Code for attendance is required'),
+  
+  });
 const useFetch= url =>{
     const [data,setData]=useState(null);
     const [loading,setLoading]=useState(true);
-
 useEffect(async () =>{
     const response=await fetch(url);
     const data=await response.json();
@@ -39,7 +49,10 @@ const cardData=[{
     organization:'kalakuchi co.',
     end:"4:30pm",
     email:'kalakuchico@gmail.com',
-    img:"https://images.unsplash.com/photo-1602631985686-1bb0e6a8696e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    img:"https://images.unsplash.com/photo-1602631985686-1bb0e6a8696e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    timeincode:'password',
+    timeoutcode:'password123',
+    isVolunteered:false
 },{
     name:"Mary",
     eventname:"Youtube Content Creators",
@@ -67,13 +80,42 @@ const useStyles = makeStyles({
       },
     typography:{
         padding:'5px'
-    }
+    } 
   });
 
 function UEvent(){
+    const formik = useFormik({
+        initialValues: {
+
+          timeoutcode:''
+            
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values) => {
+          if(values.timeoutcode==='ITO YUNG CODE NA IBABATO MO SAAKIN GALING API'){
+            axios.post('/user', {
+              hasAttended:true,
+              eventId:'SAYO MANGGALING TO',
+              userID:'SAYO RIN TO'
+            })
+            .then(function (response) {
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+            setIsCorrect(true);
+          }else{
+            setIsCorrect(false);
+          }
+          
+        },
+      });
       const classes = useStyles();
       const {data,loading} = useFetch('https://api.randomuser.me/')
+      const [isvolunteered,setIsVolunteered]=useState(cardData[0].isVolunteered);
       const {eventname} = useParams();
+      const [isCorrect, setIsCorrect] = useState('');
       return (
         <div>
         <UNavigation />
@@ -130,16 +172,44 @@ function UEvent(){
                         <EmailIcon />
                           Email:{cardData[0].email}
                     </Typography>
+                    {
+                    isvolunteered == true?
+                    <form onSubmit={formik.handleSubmit}>
+                    <TextField
+                    fullWidth
+                    id="timeoutcode"
+                    name="timeoutcode"
+                    label="Attendance Code"
+                    value={formik.values.timeoutcode}   
+                    onChange={formik.handleChange}
+                    error={formik.touched.timeoutcode && Boolean(formik.errors.timeoutcode)}
+                    helperText={formik.touched.timeoutcode && formik.errors.timeoutcode}
+                    style={{width:'200px',marginLeft:'150px'}}
+                    />
+                    {
+                    isCorrect ==false?
+                    <Button color="primary" variant="contained" fullWidth type="submit" style={{marginTop:'10px',width:'200px',marginLeft:'150px'}}>
+                    Submit Codes
+                    </Button>
+                    :
+                      <Typography style={{marginLeft:'150px',marginTop:'10px',color:'blue'}}>Attendance Code is correct <DoneAllIcon/> </Typography>
+                    }
+                    
+                    </form>
+                    :
                     <Button 
                     variant="contained"
                      color="primary" 
                      style={{padding:'10px 15px 10px 15px', 
                             marginLeft:'40%',
                             marginTop:'10px'}}
-                     onClick={() => alert('{Volunteered:true}')}
+                     onClick={() =>{
+                        setIsVolunteered(true);
+                     }}
                      >
                         Volunteer
                     </Button>
+                    }
                 </Paper>
             </Grid>
             <Grid item xl={12} style={{marginTop:'40px'}}>

@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Avatar from '@material-ui/core/Avatar';
+import Paper from '@material-ui/core/Paper'
 const notifData=[{event:'Abs-cbn volunteer'},{event:'Youtube Content Creator'}, {event:'Yolanda Volunteer'}]
 function Navigation(){
     const useStyles=makeStyles((theme) =>({
@@ -39,9 +40,9 @@ function Navigation(){
 
     return (
     <div>
-    <AppBar color='transparent' position='static'>
-    <Toolbar>
-      <IconButton onClick={handleDrawer} color='inherit' edge='start' aria-label='menu'>
+    <AppBar color='transparent' position='static' style={{height:'80px'}}>
+    <Toolbar style={{marginTop:'10px'}}>
+      <IconButton onClick={handleDrawer} style={{marginLeft:'175px'}} color='inherit' edge='start' aria-label='menu'>
         <Menu />
       </IconButton>
       <Typography style={{flexGrow:1}}>iVolunteer</Typography>
@@ -52,23 +53,8 @@ function Navigation(){
       </Link>
       <IconButton color='inherit' align='right' edge='start' aria-label='addbox' >
       <NotificationsIcon aria-controls="notifications" aria-haspopup="true" onClick={handleClick}/>
-          <Menuu
+      <Menuu
           id="notifications"
-          anchorEl={not}
-          keepMounted
-          open={Boolean(not)}
-          onClose={handleCloseNot}
-          >
-            <Link to='/user/account' className={classes.link}><MenuItem onClick={handleClose}>Account</MenuItem></Link>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-          </Menuu>
-      </IconButton>
-      <Typography>VPOINTS: {vpoints}</Typography>
-      <IconButton color='inherit' align='right' edge='start' aria-label='addbox' >
-        <Button aria-controls="account" aria-haspopup="true" onClick={handleClickNot}>
-        <Avatar>H</Avatar><Typography style={{marginLeft:'10px'}}>Kalachuchi</Typography> 
-          <Menuu
-          id="account"
           anchorEl={anchorEl}
           keepMounted
           open={Boolean(anchorEl)}
@@ -76,13 +62,29 @@ function Navigation(){
           >
             {notifData.map(curr =>{
               return (<Link to='/user/ongoing' className={classes.link}>
-                    <MenuItem onClick={handleCloseNot}><SnackbarContent message={`Your event in ${curr.event} is about to start`} /></MenuItem>
+                    <MenuItem onClick={handleClose}><SnackbarContent message={`Your event in ${curr.event} is about to start`} /></MenuItem>
                     </Link>
                     );
             })}
           </Menuu>
-          </Button>
       </IconButton>
+      <Avatar style={{marginLeft:'10px'}}>H</Avatar>
+      <Button color='inherit' align='right' edge='start' aria-label='addbox' onClick={handleClickNot}  style={{marginRight:'250px'}}>
+      Kalachuchi
+      </Button>
+      <Menuu
+          id="account"
+          anchorEl={not}
+          keepMounted
+          open={Boolean(not)}
+          onClose={handleCloseNot}
+          >
+            
+                  <Link to='/user/account' className={classes.link}>
+                    <MenuItem onClick={handleCloseNot}>Account</MenuItem>
+                  </Link>
+                  <MenuItem onClick={handleCloseNot}>Logout</MenuItem>
+          </Menuu>
     </Toolbar>
   </AppBar>
 
@@ -110,12 +112,6 @@ function Navigation(){
         <div style={{height:"30px",width:"250px"}}></div>
           <ListItem button>
             <ListItemText primary={"FINISHED EVENTS"} />
-          </ListItem>
-        </Link>
-        <Link to="/user/settings" className={classes.link}>
-        <div style={{height:"30px",width:"250px"}}></div>
-          <ListItem button>
-            <ListItemText primary={"SETTINGS"} />
           </ListItem>
         </Link>
       </List>

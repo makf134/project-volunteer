@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: 'aquamarine',
+    backgroundColor: 'grey',
     color: theme.palette.common.white,
   },
   body: {
@@ -20,7 +20,7 @@ const StyledTableCell = withStyles((theme) => ({
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
-    '&:nth-of-type(odd)': {
+    '&:nth-of-type(even)': {
       backgroundColor: 'aqua',
     },
   },
@@ -38,24 +38,22 @@ const useStyles = makeStyles({
 
   return (
       <div>
-    <Typography variant='h4'>Timesheet</Typography>
+    <Typography variant='h4' style={{marginBottom:'25px',fontFamily:'lato',fontWeight:'600',fontSize:'40px'}}>Timesheet</Typography>
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Volunteer</StyledTableCell>
-            <StyledTableCell align="right">Time In</StyledTableCell>
-            <StyledTableCell align="right">Time Out</StyledTableCell>
+        <TableHead >
+          <TableRow >
+            <StyledTableCell align='center' style={{fontWeight:'bold',fontSize:'20px',padding:'30px'}}>Volunteer</StyledTableCell>
+            <StyledTableCell align="center" style={{fontWeight:'bold',fontSize:'20px'}}>Time Submitted</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.info.map((row) => (
             <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
+              <StyledTableCell component="th" scope="row" align='center' style={{fontSize:'18px',padding:'20px'}}>
                 {row.name}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.timein}</StyledTableCell>
-              <StyledTableCell align="right">{row.timeout}</StyledTableCell>
+              <StyledTableCell align="center" style={{fontSize:'18px',padding:'20px'}}>{row.timeout}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

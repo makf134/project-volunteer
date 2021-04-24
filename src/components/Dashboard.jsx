@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: 'aquamarine',
+    backgroundColor: 'grey',
     color: theme.palette.common.white,
   },
   body: {
@@ -20,7 +20,7 @@ const StyledTableCell = withStyles((theme) => ({
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
-    '&:nth-of-type(odd)': {
+    '&:nth-of-type(even)': {
       backgroundColor: 'aqua',
     },
   },
@@ -42,6 +42,9 @@ const useStyles = makeStyles({
   table: {
     minWidth: 700,
   },
+  name:{
+
+  }
 });
 
 export default function Dashboard(props) {
@@ -49,24 +52,24 @@ export default function Dashboard(props) {
 
   return (
       <div>
-    <Typography variant='h4'>Dashboard</Typography>
+    <Typography variant='h4' style={{marginBottom:'25px',fontFamily:'lato',fontWeight:'600',fontSize:'40px'}}>Dashboard</Typography>
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Volunteer</StyledTableCell>
-            <StyledTableCell align="right">Code Status</StyledTableCell>
-            <StyledTableCell align="right">Total of Hours</StyledTableCell>
+            <StyledTableCell align='center' style={{fontWeight:'bold',fontSize:'20px',padding:'30px'}}>Volunteer</StyledTableCell>
+            <StyledTableCell align="center" style={{fontWeight:'bold',fontSize:'20px'}}>Code Status</StyledTableCell>
+            <StyledTableCell align="center" style={{fontWeight:'bold',fontSize:'20px'}}>Total of Hours</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.info && props?.info?.map((row) => (
+          {props.info.map((row) => (
             <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.name.first}
+              <StyledTableCell component="th" scope="row" align='center' style={{fontSize:'18px',padding:'20px'}}>
+                {row.name}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.name.first}</StyledTableCell>
-              <StyledTableCell align="right">{row.name.first}</StyledTableCell>
+              <StyledTableCell align="center" style={{fontSize:'18px',padding:'20px'}}>{row.status}</StyledTableCell>
+              <StyledTableCell align="center" style={{fontSize:'18px',padding:'20px'}}>{row.total}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

@@ -12,6 +12,7 @@ import uniqid from "uniqid";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
+import axios from 'axios';
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
@@ -31,10 +32,10 @@ const validationSchema = yup.object({
     .string('Enter description')
     .required('Description is required')
     .min(100,'Description should be minimum of 100 characters'),
-  code: yup
+  codeend: yup
     .string('Enter/Generate code')
-    .required('Code is required')
-    .min(4,'Code should be minimum of 4 characters'),
+    .required('Attendance Code is required')
+    .min(4,'Attendance Code should be minimum of 4 characters'),
   start: yup
   .string('Enter Start Time')
   .required('Time is required'),
@@ -53,12 +54,13 @@ const validationSchema = yup.object({
   eventlink:yup
   .string('HostName')
   .required('Time is required')
-  .min(5,'Event Link should be minimum of 4 characters')
+  .min(5,'Event Link should be minimum of 4 characters'),
+  file: yup.mixed().required()
 });
 
 const AddEvent = () => {
     const [image,setImage]=useState();
-
+  
     const classes = useStyles();
 
   // const [code,setCode]=useState(formik.values.code);
@@ -66,18 +68,30 @@ const AddEvent = () => {
     initialValues: {
       eventname: '',
       description:"",
-      code: '',
+      codeend: '',
       start:'',
       date:'',
       end:"",
       medium:'',
       hostname:'',
-      link:''
+      link:'',
+      file:null
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(JSON.stringify({...values,img:image},null,2));
-      alert(JSON.stringify({...values,img:image}, null, 2));
+      
+      axios.post('https://api.randomuser.me/', {Data:{...values},img:{img:image},
+        file:{ 
+        fileName: values.file.name, 
+        type: values.file.type,
+        size: `${values.file.size} bytes`
+      }})
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     },
   });
   
@@ -150,22 +164,23 @@ const AddEvent = () => {
                 error={formik.touched.eventlink && Boolean(formik.errors.eventlink)}
                 helperText={formik.touched.eventlink && formik.errors.eventlink}
             />
+
             <Grid item l={9}>
              <TextField
                 fullWidth
-                id="code"
-                name="code"
-                label="Code"
-                value={formik.values.code}
+                id="codeend"
+                name="codeend"
+                label="Attendance Code"
+                value={formik.values.codeend}
                 onChange={formik.handleChange}
-                error={formik.touched.code && Boolean(formik.errors.code)}
-                helperText={formik.touched.code && formik.errors.code}
+                error={formik.touched.codeend && Boolean(formik.errors.codeend)}
+                helperText={formik.touched.codeend && formik.errors.codeend}
                 style={{marginTop:'15px'}}
             />
             </Grid>
             <Grid item l={9}>
-            <Button variant="contained" style={{marginTop:'15px', marginBottom:'15px'}} color="primary" onClick={() =>{
-              formik.setFieldValue ("code", uniqid());
+            <Button variant="contained" style={{marginTop:'15px', marginBottom:'10px'}} color="primary" onClick={() =>{
+              formik.setFieldValue ("codeend", uniqid());
             }}> Generate Code </Button>
             </Grid>
 
@@ -222,7 +237,13 @@ const AddEvent = () => {
           error={formik.touched.end && Boolean(formik.errors.end)}
           helperText={formik.touched.end && formik.errors.end}
           />
-
+            <Typography variant='h5' style={{marginTop:'10px'}}>
+              File Upload
+              </Typography>
+                  <TextField id="file" name="file" type="file" onChange={(event) => {
+                    formik.setFieldValue("file", event.currentTarget.files[0]);
+                  }} className="form-control" />
+            <div style={{marginBottom:'30px'}}></div>
         <DropzoneArea
         filesLimit='1'
         acceptedFiles={['image/*']}

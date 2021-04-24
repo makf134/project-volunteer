@@ -8,9 +8,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: 'aquamarine',
+    backgroundColor: 'grey',
     color: theme.palette.common.white,
   },
   body: {
@@ -20,7 +21,7 @@ const StyledTableCell = withStyles((theme) => ({
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
-    '&:nth-of-type(odd)': {
+    '&:nth-of-type(even)': {
       backgroundColor: 'aqua',
     },
   },
@@ -49,24 +50,24 @@ export default function UDashboard() {
 
   return (
       <div>
-    <Typography variant='h4'>Dashboard</Typography>
+    <Typography variant='h4' style={{marginBottom:'25px',fontFamily:'lato',fontWeight:'600',fontSize:'40px'}} >Dashboard</Typography>
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Event</StyledTableCell>
-            <StyledTableCell align="right">Code Status</StyledTableCell>
-            <StyledTableCell align="right">Total of Hours</StyledTableCell>
+            <StyledTableCell align='center' style={{fontWeight:'bold',fontSize:'20px',padding:'30px'}}>Event</StyledTableCell>
+            <StyledTableCell align="center" style={{fontWeight:'bold',fontSize:'20px'}}>Code Status</StyledTableCell>
+            <StyledTableCell align="center" style={{fontWeight:'bold',fontSize:'20px'}}>Total of Hours</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
             <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
+              <StyledTableCell align="center" component="th" scope="row" style={{fontSize:'18px',padding:'20px'}}>
                 {row.Volunteer}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.CodeStatus}</StyledTableCell>
-              <StyledTableCell align="right">{row.HoursTotal}</StyledTableCell>
+              <StyledTableCell align="center" style={{fontSize:'18px',padding:'20px'}}>{row.CodeStatus}</StyledTableCell>
+              <StyledTableCell align="center" style={{fontSize:'18px',padding:'20px'}}>{row.HoursTotal}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

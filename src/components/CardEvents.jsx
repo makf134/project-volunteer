@@ -20,6 +20,10 @@ const useStyles=makeStyles((theme) =>({
         media: {
           height: 140,
         
+        }, typography:{
+          fontFamily: 'Orelega One',
+          fontWeight:'600',
+          fontSize:'30px'
         }
   }));
 
@@ -36,8 +40,8 @@ export default function CardEvents(props) {
           title="Contemplative Reptile"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {props.eventname}
+          <Typography gutterBottom variant="h5" component="h2" className={classes.typography}>
+            {props.eventname.slice(0,18)}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {props.description.slice(0,224)}

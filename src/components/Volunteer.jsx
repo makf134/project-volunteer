@@ -38,25 +38,29 @@ const rows = [
   createData('Christian', 'christian@gmail.com', 'Project Tanglaw: Light 100 Homes with Solar','Passed'),
 ];
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 700,
   },
-});
+  large: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
+  }
+}));
 
  function Volunteer(props) {
   const classes = useStyles();
 
   return (
       <div>
-    <Typography variant='h4'>Volunteer</Typography>
+    <Typography variant='h4' style={{marginBottom:'25px',fontFamily:'lato',fontWeight:'600',fontSize:'40px'}}>Volunteer</Typography>
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
         <TableBody>
           {props.info.map((row) => (
             <StyledTableRow key={row.name}>
               <StyledTableCell component="th" scope="row">
-              <Avatar>h</Avatar>
+              <Avatar className={classes.large} style={{marginLeft:'50px'}}>h</Avatar>
               </StyledTableCell>
               <StyledTableCell align="left">
                 <div styles={{display:'flex'}}>{row.name}</div>  
